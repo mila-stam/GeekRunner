@@ -1,0 +1,10 @@
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\GeekRunnerApp.exe.config
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\GeekRunnerApp.exe
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\GeekRunnerApp.pdb
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.csproj.AssemblyReference.cache
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.Form1.resources
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.Properties.Resources.resources
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.csproj.GenerateResource.cache
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.csproj.CoreCompileInputs.cache
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.exe
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.pdb

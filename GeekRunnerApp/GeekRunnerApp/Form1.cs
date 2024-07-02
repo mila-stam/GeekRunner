@@ -42,7 +42,7 @@ namespace GeekRunnerApp
             random = new Random();
             lblLevel.Text = "Level 1";
             lblScore.Text = "Score: 0";
-
+            tGame.Start();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,11 +54,11 @@ namespace GeekRunnerApp
         {
             pb_character.Top += jumpSpeed; //karakterot go pomestuvame spored jumpspeedot, 
 
-            if(jumping && force < 0) //proveruvame dali karakterot treba da prekine da skoka
+            if (jumping && force < 0) //proveruvame dali karakterot treba da prekine da skoka
             {
-                jumping = false; 
+                jumping = false;
             }
-            if(jumping) // ako skoka namaluvame vrednost za da odi nagore, vo sprotivno dodeluvame pozitivna za da ide nadole
+            if (jumping) // ako skoka namaluvame vrednost za da odi nagore, vo sprotivno dodeluvame pozitivna za da ide nadole
             {
                 jumpSpeed = -12;
                 force -= 1;
@@ -67,26 +67,89 @@ namespace GeekRunnerApp
             {
                 jumpSpeed = 12;
             }
-            foreach(Control x in this.Controls)
+            foreach (Control x in this.Controls)
             {
-                if (x is PictureBox && x.Tag =="obstacle")
+                if (x is PictureBox && x.Tag == "obstacle")
                 {
                     x.Left -= gameSpeed;
-                    if(x.Left < -100)
+                    if (x.Left < -100)
                     {
                         x.Left = this.ClientSize.Width + random.Next(200, 800);
                         score++;
                         //levelup funkcija tuka
+                        CheckForLevelUp();
                     }
-                    if(pb_character.Bounds.IntersectsWith(x.Bounds))
+                    if (pb_character.Bounds.IntersectsWith(x.Bounds))
                     {
                         //game over funkcija tuka
+                        GameOver();
                     }
 
                 }
             }
             lblScore.Text = "Score: " + score;
 
+            if(score > highScore)
+            {
+                highScore = score;
+            }
+
+        }
+
+        private void CheckForLevelUp()
+        {
+            if (level <= 3 && score >= levelScores[level - 1])
+            {
+                MessageBox.Show("Congratulations, you passed the level!", "Level Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                level++;
+                if(level <= 3)
+                {
+                    gameSpeed = levelSpeeds[level - 1];
+                    lblLevel.Text = "Level " + level;
+
+                    //da se smeni karakter i pozadina
+                }
+                else
+                {
+                    MessageBox.Show("Congratulations, you finished the game!", "Game Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //game over
+                    GameOver();
+                }
+            }
+        }
+
+        private void GameOver()
+        {
+            tGame.Stop();
+            jumping = false;
+            MessageBox.Show("Your score: " + score + "\nHigh Score: " + highScore);
+            score = 0;
+            level = 1;
+            gameSpeed = levelSpeeds[0];
+            lblLevel.Text = "Level 1";
+            lblScore.Text = "Score: 0";
+
+            //da se smeni karakterot i pozadinata
+
+
+            foreach (Control x in this.Controls)
+            {
+                if(x is PictureBox && x.Tag == "obstacle") {
+                    x.Left = this.ClientSize.Width + random.Next(500, 800);
+                }
+            }
+
+            tGame.Start();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Space && !jumping)
+            {
+                jumping = true;
+                force = 12;
+            }
         }
     }
 }
