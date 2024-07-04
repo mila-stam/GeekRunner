@@ -79,5 +79,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\background.jpg" />
+    <Content Include="Images\cloud.png" />
+    <Content Include="Images\clouds.png" />
+    <Content Include="Images\desktop.png" />
+    <Content Include="Images\find.png" />
+    <Content Include="Images\left-click.png" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\wireless-router.png" />
+    <Content Include="Images\wrench.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

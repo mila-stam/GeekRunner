@@ -15,7 +15,7 @@ namespace GeekRunnerApp
         private int score;
         private int highScore;
         private int gameSpeed;
-        private bool jumping = false;
+        private bool jumping;
         private int jumpSpeed;
         private int force;
         private Random random;
@@ -24,10 +24,18 @@ namespace GeekRunnerApp
         private readonly int[] levelSpeeds = { 10, 15, 20 };
         private readonly int[] levelScores = { 10, 20, 30 };
 
+
+        private int groundLevel; //added
+        private int initialCharacterTop; //added
+
+        private readonly string[] charactersImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\search_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\wrench_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\find_1.png" };  //added
+        private readonly string[] backgroundImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg" };  //added
+        private readonly string[] obstacleImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\desktop_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\left-click_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\wireless-router_1.png" };  //added
         public Form1()
         {
             InitializeComponent();
             InitializeGame();
+            DoubleBuffered = true;
         }
 
         private void InitializeGame()
@@ -42,7 +50,34 @@ namespace GeekRunnerApp
             random = new Random();
             lblLevel.Text = "Level 1";
             lblScore.Text = "Score: 0";
+
+
+            groundLevel = this.ClientSize.Height - pb_character.Height - 100; //added
+            initialCharacterTop = groundLevel; //added
+            pb_character.Top = groundLevel; //added
+            pb_character.Left = 50;
+            pb_character.Image = Image.FromFile(charactersImages[0]); //added
+            this.BackgroundImage = Image.FromFile(backgroundImages[0]); //added
+            AddObstacles(); //added
+
             tGame.Start();
+        }
+
+        private void AddObstacles()//added
+        {
+            for (int i = 0; i < 3; i++) // Adjust the number of obstacles as needed
+            {
+                PictureBox obstacle = new PictureBox
+                {
+                    Tag = "obstacle",
+                    Image = Image.FromFile(obstacleImages[random.Next(obstacleImages.Length)]), // Select a random image for the obstacle
+                    SizeMode = PictureBoxSizeMode.AutoSize,
+                    Left = this.ClientSize.Width + random.Next(200, 800),
+                    Top = groundLevel + 50 // Adjust height based on ground level and obstacle size
+                };
+                this.Controls.Add(obstacle);
+            }
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -52,7 +87,7 @@ namespace GeekRunnerApp
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pb_character.Top += jumpSpeed; //karakterot go pomestuvame spored jumpspeedot, 
+            /*pb_character.Top += jumpSpeed; //karakterot go pomestuvame spored jumpspeedot, 
 
             if (jumping && force < 0) //proveruvame dali karakterot treba da prekine da skoka
             {
@@ -66,6 +101,31 @@ namespace GeekRunnerApp
             else
             {
                 jumpSpeed = 12;
+            }*/
+
+            //proben kod za da ne odi podole od odredeno nivo
+            if (pb_character.Top + pb_character.Height < groundLevel || jumping)
+            {
+                pb_character.Top += jumpSpeed;
+
+                if (jumping)
+                {
+                    jumpSpeed = -12; 
+                    force -= 1; 
+
+                    if (force < 0)
+                    {
+                        jumping = false;
+                    }
+                }
+                else
+                {
+                    jumpSpeed = 12;
+                }
+            }
+            else
+            {
+                pb_character.Top = groundLevel;
             }
             foreach (Control x in this.Controls)
             {
@@ -74,7 +134,10 @@ namespace GeekRunnerApp
                     x.Left -= gameSpeed;
                     if (x.Left < -100)
                     {
-                        x.Left = this.ClientSize.Width + random.Next(200, 800);
+                        do //added do/while za da se proveri dali se poklopuva nekoja prepreka
+                        {
+                            x.Left = this.ClientSize.Width + random.Next(200, 800);
+                        } while (IsOverlappingObstacle(x));
                         score++;
                         //levelup funkcija tuka
                         CheckForLevelUp();
@@ -96,6 +159,21 @@ namespace GeekRunnerApp
 
         }
 
+        private bool IsOverlappingObstacle(Control newObstacle) //added
+        {
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox && x.Tag == "obstacle" && x != newObstacle)
+                {
+                    if (newObstacle.Bounds.IntersectsWith(x.Bounds))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void CheckForLevelUp()
         {
             if (level <= 3 && score >= levelScores[level - 1])
@@ -109,6 +187,8 @@ namespace GeekRunnerApp
                     lblLevel.Text = "Level " + level;
 
                     //da se smeni karakter i pozadina
+                    pb_character.Image = Image.FromFile(charactersImages[level-1]); //added
+                    this.BackgroundImage = Image.FromFile(backgroundImages[level-1]); //added
                 }
                 else
                 {
@@ -131,7 +211,8 @@ namespace GeekRunnerApp
             lblScore.Text = "Score: 0";
 
             //da se smeni karakterot i pozadinata
-
+            pb_character.Image = Image.FromFile(charactersImages[0]);  //added
+            this.BackgroundImage = Image.FromFile(backgroundImages[0]);   //added
 
             foreach (Control x in this.Controls)
             {
@@ -145,7 +226,7 @@ namespace GeekRunnerApp
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Space && !jumping)
+            if(e.KeyCode == Keys.Space /*&& !jumping*/)
             {
                 jumping = true;
                 force = 12;
