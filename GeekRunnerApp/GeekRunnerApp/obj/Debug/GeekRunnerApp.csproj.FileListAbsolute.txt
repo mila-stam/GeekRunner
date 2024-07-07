@@ -25,3 +25,10 @@ C:\Users\rulev\OneDrive\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug
 C:\Users\rulev\OneDrive\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.csproj.CoreCompileInputs.cache
 C:\Users\rulev\OneDrive\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.exe
 C:\Users\rulev\OneDrive\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\obj\Debug\GeekRunnerApp.pdb
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\background_1.jpg
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\desktop_1.png
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\find_1.png
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\left-click_1.png
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\search_1.png
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\wireless-router_1.png
+C:\Users\MILA\Desktop\GeekRunner\GeekRunnerApp\GeekRunnerApp\bin\Debug\Images\wrench_1.png
