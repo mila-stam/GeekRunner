@@ -28,9 +28,9 @@ namespace GeekRunnerApp
         private int groundLevel; //added
         private int initialCharacterTop; //added
 
-        private readonly string[] charactersImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\search_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\wrench_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\find_1.png" };  //added
-        private readonly string[] backgroundImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\background_1.jpg" };  //added
-        private readonly string[] obstacleImages = { "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\desktop_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\left-click_1.png", "C:\\Users\\MILA\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Images\\wireless-router_1.png" };  //added
+        private readonly string[] charactersImages = { "Images\\search_1.png", "Images\\wrench_1.png", "Images\\find_1.png" };  //added
+        private readonly string[] backgroundImages = { "Images\\background_1.jpg", "Images\\background_1.jpg", "Images\\background_1.jpg" };  //added
+        private readonly string[] obstacleImages = { "desktop_1.png", "Images\\left-click_1.png", "Images\\wireless-router_1.png" };  //added
         public Form1()
         {
             InitializeComponent();
@@ -110,7 +110,7 @@ namespace GeekRunnerApp
 
                 if (jumping)
                 {
-                    jumpSpeed = -12; 
+                    jumpSpeed = -10; 
                     force -= 1; 
 
                     if (force < 0)
@@ -120,7 +120,7 @@ namespace GeekRunnerApp
                 }
                 else
                 {
-                    jumpSpeed = 12;
+                    jumpSpeed = 10;
                 }
             }
             else
