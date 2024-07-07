@@ -30,7 +30,7 @@ namespace GeekRunnerApp
 
         private readonly string[] charactersImages = { "Images\\search_1.png", "Images\\wrench_1.png", "Images\\find_1.png" };  //added
         private readonly string[] backgroundImages = { "Images\\background_1.jpg", "Images\\background_1.jpg", "Images\\background_1.jpg" };  //added
-        private readonly string[] obstacleImages = { "desktop_1.png", "Images\\left-click_1.png", "Images\\wireless-router_1.png" };  //added
+        private readonly string[] obstacleImages = { "Images\\desktop_1.png", "Images\\left-click_1.png", "Images\\wireless-router_1.png" };  //added
         public Form1()
         {
             InitializeComponent();
@@ -65,6 +65,7 @@ namespace GeekRunnerApp
 
         private void AddObstacles()//added
         {
+            int lastObstaclePosition = this.ClientSize.Width; //added 
             for (int i = 0; i < 3; i++) // Adjust the number of obstacles as needed
             {
                 PictureBox obstacle = new PictureBox
@@ -72,12 +73,13 @@ namespace GeekRunnerApp
                     Tag = "obstacle",
                     Image = Image.FromFile(obstacleImages[random.Next(obstacleImages.Length)]), // Select a random image for the obstacle
                     SizeMode = PictureBoxSizeMode.AutoSize,
-                    Left = this.ClientSize.Width + random.Next(200, 800),
+                    Left = lastObstaclePosition + random.Next(700, 1000), //Adjust left so that the obstacles are properly distanced 
                     Top = groundLevel + 50 // Adjust height based on ground level and obstacle size
                 };
+                lastObstaclePosition = obstacle.Left;
                 this.Controls.Add(obstacle);
             }
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -110,8 +112,8 @@ namespace GeekRunnerApp
 
                 if (jumping)
                 {
-                    jumpSpeed = -10; 
-                    force -= 1; 
+                    jumpSpeed = -12;
+                    force -= 1;
 
                     if (force < 0)
                     {
@@ -120,117 +122,141 @@ namespace GeekRunnerApp
                 }
                 else
                 {
-                    jumpSpeed = 10;
+                    jumpSpeed = 12;
                 }
             }
             else
             {
                 pb_character.Top = groundLevel;
+                jumping = false;
+
             }
-            foreach (Control x in this.Controls)
+            int lastObstaclePosition = this.ClientSize.Width;
+            foreach (Control x1 in this.Controls) //za da se najde poslednata prepreka
             {
-                if (x is PictureBox && x.Tag == "obstacle")
+                if (x1 is PictureBox && x1.Tag == "obstacle")
                 {
-                    x.Left -= gameSpeed;
-                    if (x.Left < -100)
+                    lastObstaclePosition = x1.Left;
+                }
+            }
+                foreach (Control x in this.Controls)
+                {
+                    if (x is PictureBox && x.Tag == "obstacle")
                     {
-                        do //added do/while za da se proveri dali se poklopuva nekoja prepreka
+                        //added
+                        x.Left -= gameSpeed;
+                        if (x.Left < -100)
                         {
-                            x.Left = this.ClientSize.Width + random.Next(200, 800);
-                        } while (IsOverlappingObstacle(x));
-                        score++;
-                        //levelup funkcija tuka
-                        CheckForLevelUp();
+                            x.Left = lastObstaclePosition + random.Next(700, 1000); //added
+                            //do //added do/while za da se proveri dali se poklopuva nekoja prepreka
+                            //{
+                            //    x.Left = this.ClientSize.Width + random.Next(500, 1000);
+                            //} while (IsOverlappingObstacle(x));
+                            score++;
+                            //levelup funkcija tuka
+                            CheckForLevelUp();
+                        }
+                        if (pb_character.Bounds.IntersectsWith(x.Bounds))
+                        {
+                            //game over funkcija tuka
+                            GameOver();
+                        }
+                        lastObstaclePosition = x.Left;
+
                     }
-                    if (pb_character.Bounds.IntersectsWith(x.Bounds))
+                }
+                lblScore.Text = "Score: " + score;
+
+                if (score > highScore)
+                {
+                    highScore = score;
+                }
+
+            }
+
+            private bool IsOverlappingObstacle(Control newObstacle) //added
+            {
+                foreach (Control x in this.Controls)
+                {
+                    if (x is PictureBox && x.Tag == "obstacle" && x != newObstacle)
                     {
-                        //game over funkcija tuka
+                        if (newObstacle.Bounds.IntersectsWith(x.Bounds))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            private void CheckForLevelUp()
+            {
+                if (level <= 3 && score >= levelScores[level - 1])
+                {
+                    MessageBox.Show("Congratulations, you passed the level!", "Level Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    level++;
+                    if (level <= 3)
+                    {
+                        gameSpeed = levelSpeeds[level - 1];
+                        lblLevel.Text = "Level " + level;
+
+                        //da se smeni karakter i pozadina
+                        pb_character.Image = Image.FromFile(charactersImages[level - 1]); //added
+                        this.BackgroundImage = Image.FromFile(backgroundImages[level - 1]); //added
+                    }
+                    else
+                    {
+                        MessageBox.Show("Congratulations, you finished the game!", "Game Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //game over
                         GameOver();
                     }
-
                 }
             }
-            lblScore.Text = "Score: " + score;
 
-            if(score > highScore)
+            private void GameOver()
             {
-                highScore = score;
+                tGame.Stop();
+                jumping = false;
+                MessageBox.Show("Your score: " + score + "\nHigh Score: " + highScore);
+                score = 0;
+                level = 1;
+                gameSpeed = levelSpeeds[0];
+                lblLevel.Text = "Level 1";
+                lblScore.Text = "Score: 0";
+
+                //da se smeni karakterot i pozadinata
+                pb_character.Image = Image.FromFile(charactersImages[0]);  //added
+                this.BackgroundImage = Image.FromFile(backgroundImages[0]);   //added
+                int lastObstaclePosition = this.ClientSize.Width;
+            foreach (Control x1 in this.Controls) //za da se najde poslednata prepreka
+            {
+                if (x1 is PictureBox && x1.Tag == "obstacle")
+                {
+                    lastObstaclePosition = x1.Left;
+                }
             }
-
-        }
-
-        private bool IsOverlappingObstacle(Control newObstacle) //added
-        {
             foreach (Control x in this.Controls)
-            {
-                if (x is PictureBox && x.Tag == "obstacle" && x != newObstacle)
                 {
-                    if (newObstacle.Bounds.IntersectsWith(x.Bounds))
-                    {
-                        return true;
-                    }
+                    if (x is PictureBox && x.Tag == "obstacle") {
+                    x.Left = lastObstaclePosition + random.Next(700, 1000);
+                    lastObstaclePosition = x.Left;
                 }
-            }
-            return false;
-        }
 
-        private void CheckForLevelUp()
-        {
-            if (level <= 3 && score >= levelScores[level - 1])
-            {
-                MessageBox.Show("Congratulations, you passed the level!", "Level Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                level++;
-                if(level <= 3)
-                {
-                    gameSpeed = levelSpeeds[level - 1];
-                    lblLevel.Text = "Level " + level;
-
-                    //da se smeni karakter i pozadina
-                    pb_character.Image = Image.FromFile(charactersImages[level-1]); //added
-                    this.BackgroundImage = Image.FromFile(backgroundImages[level-1]); //added
                 }
-                else
-                {
-                    MessageBox.Show("Congratulations, you finished the game!", "Game Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //game over
-                    GameOver();
-                }
-            }
-        }
-
-        private void GameOver()
-        {
-            tGame.Stop();
-            jumping = false;
-            MessageBox.Show("Your score: " + score + "\nHigh Score: " + highScore);
-            score = 0;
-            level = 1;
-            gameSpeed = levelSpeeds[0];
-            lblLevel.Text = "Level 1";
-            lblScore.Text = "Score: 0";
-
-            //da se smeni karakterot i pozadinata
-            pb_character.Image = Image.FromFile(charactersImages[0]);  //added
-            this.BackgroundImage = Image.FromFile(backgroundImages[0]);   //added
-
-            foreach (Control x in this.Controls)
-            {
-                if(x is PictureBox && x.Tag == "obstacle") {
-                    x.Left = this.ClientSize.Width + random.Next(500, 800);
-                }
+                //AddObstacles();
+                
+                tGame.Start();
             }
 
-            tGame.Start();
-        }
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Space /*&& !jumping*/)
+            private void Form1_KeyDown(object sender, KeyEventArgs e)
             {
-                jumping = true;
-                force = 12;
+                if (e.KeyCode == Keys.Space && pb_character.Top == groundLevel && jumping == false)
+                {
+                    jumping = true;
+                    force = 15;
+                }
             }
         }
     }
-}
+

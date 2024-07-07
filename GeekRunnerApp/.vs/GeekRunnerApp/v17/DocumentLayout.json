@@ -22,11 +22,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\rulev\\OneDrive\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Form1.cs",
+              "RelativeDocumentMoniker": "GeekRunnerApp\\Form1.cs",
+              "ToolTip": "C:\\Users\\rulev\\OneDrive\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Form1.cs",
+              "RelativeToolTip": "GeekRunnerApp\\Form1.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAzwEsAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-02T17:25:27.95Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -39,19 +52,6 @@
               "ViewState": "AQIAADkAAAAAAAAAAAAYwFEAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-04T12:21:04.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\rulev\\OneDrive\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Form1.cs",
-              "RelativeDocumentMoniker": "GeekRunnerApp\\Form1.cs",
-              "ToolTip": "C:\\Users\\rulev\\OneDrive\\Desktop\\GeekRunner\\GeekRunnerApp\\GeekRunnerApp\\Form1.cs",
-              "RelativeToolTip": "GeekRunnerApp\\Form1.cs",
-              "ViewState": "AQIAAFgAAAAAAAAAAAAuwHoAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T17:25:27.95Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
